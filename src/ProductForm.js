@@ -5,6 +5,7 @@ function ProductForm() {
   const [submittedProducts, setSubmittedProducts] = useState(
     JSON.parse(localStorage.getItem('products')) || []
   );
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(submittedProducts));
@@ -18,6 +19,10 @@ function ProductForm() {
     e.preventDefault();
     setSubmittedProducts([...submittedProducts, product]);
     setProduct({medicine: '', description: '', price: ''});
+  }
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
   }
 
   return (
@@ -43,8 +48,19 @@ function ProductForm() {
           <p>Medicine Name: {product.medicine}</p>
           <p>Description: {product.description}</p>
           <p>Price: {product.price}</p>
+          <button onClick={() => addToCart(product)}>Add to Cart</button>
         </div>
       ))}
+      <div>
+        <h2>Cart ({cart.length})</h2>
+        {cart.map((product, index) => (
+          <div key={index}>
+            <p>Medicine Name: {product.medicine}</p>
+            <p>Description: {product.description}</p>
+            <p>Price: {product.price}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
