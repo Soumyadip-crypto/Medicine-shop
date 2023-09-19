@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function ProductForm() {
   const [product, setProduct] = useState({medicine: '', description: '', price: ''});
-  const [submittedProducts, setSubmittedProducts] = useState([]);
+  const [submittedProducts, setSubmittedProducts] = useState(
+    JSON.parse(localStorage.getItem('products')) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem('products', JSON.stringify(submittedProducts));
+  }, [submittedProducts]);
 
   const handleChange = (e) => {
     setProduct({...product, [e.target.name]: e.target.value});
